@@ -7,7 +7,7 @@ class RoutesManager {
   static Route route(RouteSettings r) {
     switch (r.name) {
       case Routes.TemplateRoutes:
-      //var args=r.arguments as String?;
+        //var args=r.arguments as String?;
         return MaterialPageRoute(builder: (_) => TemplatePage());
 
       default:
