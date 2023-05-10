@@ -11,7 +11,7 @@ class PresenceController with ChangeNotifier{
   }
 }
 
-void main(){
+ void main(){
   var test=PresenceController();
   test.setPresenceApi('/muzolaethberg/api_presence/presence.php',{'idwifi':'10:20:20:00'});
 }
