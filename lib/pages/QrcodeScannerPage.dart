@@ -24,16 +24,14 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
   final NetworkInfo infoReseau = NetworkInfo();
 
   @override
-
   void initState() {
     super.initState();
     _infoConnection();
   }
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(body: _body(),);
   }
-
   Widget _body(){
     return Stack(
       children: [
@@ -45,18 +43,27 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
             onQRViewCreated: (QRViewController controller){
               this.qrController=controller;
               controller.scannedDataStream.listen((scanData) async {
-
                 resultScan=scanData.code;
-                if(resultScan==null)return;
+                controller.dispose();
 
                 var presenceCtrl=context.read<PresenceController>();
-                var result=await presenceCtrl.setPresenceApi(resultScan!, {'idwifi':_connectionStatus});
+                var result=await presenceCtrl.setPresenceApi(resultScan!, {'bssid':_connectionStatus,'user_id':'4'});
 
-                if(mounted && result!=null) {
-                  showPresenceMsg(context, true, "Votre Présence à été enregistré avec succés");
-                }
-                else{
-                  showPresenceMsg(context, false, "Vous avez scaner votre présence avec un réseau non autorisé");
+                switch (result.data!['message']) {
+                  case "Présence enregistré":
+                    showPresenceMsg(context, true, "Votre présence a été enregistré avec succés");
+                    controller.dispose();
+                    break;
+                  case "Présence deja enregistré":
+                    showPresenceMsg(context, false, "Votre Présence est deja enregistré");
+                    controller.dispose();
+                    break;
+                  case "Réseau non autorisé":
+                    showPresenceMsg(context, false, "Réseau non autorisé");
+                    controller.dispose();
+                    break;
+                  default:
+                    controller.dispose();
                 }
               });
             }
@@ -109,7 +116,6 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
       ],
     );
   }
-
   Future<void> _infoConnection() async {
     wifiId = await infoReseau.getWifiBSSID();
     _connectionStatus =  '$wifiId';
