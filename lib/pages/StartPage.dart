@@ -1,5 +1,7 @@
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/pages/AbsencePage.dart';
+import 'package:squelette_mobile_parcours/pages/HistoriquePage.dart';
 class StartedPage extends StatefulWidget {
   const StartedPage({Key? key}) : super(key: key);
 
@@ -33,6 +35,7 @@ class _StartedPageState extends State<StartedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         automaticallyImplyLeading: false,
         title: const Text("Absences"),
       ),
@@ -46,8 +49,8 @@ class _StartedPageState extends State<StartedPage> {
         child: const Icon(Icons.add),
       )
           : null,
-      floatingActionButtonLocation: _fabLocation,
-      bottomNavigationBar: _DemoBottomAppBar(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      bottomNavigationBar: _bottomAppBar(),
     );
   }
   Widget _body(){
@@ -94,45 +97,56 @@ class _StartedPageState extends State<StartedPage> {
           groupValue: _fabLocation,
           onChanged: _onFabLocationChanged,
         ),
+        DateTimePicker(
+          type: DateTimePickerType.date,
+          dateMask: 'd MMM, yyyy',
+          initialValue: DateTime.now().toString(),
+          firstDate: DateTime(2000),
+          lastDate: DateTime(2100),
+          icon: Icon(Icons.event),
+          dateLabelText: 'Date',
+          timeLabelText: "Hour",
+          selectableDayPredicate: (date) {
+            // Disable weekend days to select from the calendar
+            if (date.weekday == 6 || date.weekday == 7) {
+              return false;
+            }
+            return true;
+          },
+          onChanged: (val) => print(val),
+          validator: (val) {
+            print(val);
+            return null;
+          },
+          onSaved: (val) => print(val),
+        )
       ],
     );
   }
-}
-class _DemoBottomAppBar extends StatelessWidget {
-  const _DemoBottomAppBar({
-    this.fabLocation = FloatingActionButtonLocation.endDocked,
-    this.shape = const CircularNotchedRectangle(),
-  });
-
-  final FloatingActionButtonLocation fabLocation;
-  final NotchedShape? shape;
-
-  static final List<FloatingActionButtonLocation> centerLocations =
-  <FloatingActionButtonLocation>[
-    FloatingActionButtonLocation.centerDocked,
-    FloatingActionButtonLocation.centerFloat,
-  ];
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _bottomAppBar(){
     return BottomAppBar(
-      shape: shape,
+      shape: CircularNotchedRectangle(),
       color: Colors.blue,
       child: IconTheme(
         data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
               tooltip: 'Open navigation menu',
               icon: const Icon(Icons.menu),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_)=> StartedPage()));
+              },
             ),
-            if (centerLocations.contains(fabLocation)) const Spacer(),
+
 
             IconButton(
               tooltip: 'Favorite',
               icon: const Icon(Icons.history),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_)=> HistoriquePage()));
+              },
             ),
           ],
         ),

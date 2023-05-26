@@ -24,16 +24,15 @@ class _HistoriquePageState extends State<HistoriquePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
+      body: _body(),
     );
   }
   AppBar _appBar(){
     var absenceCtrl = context.watch<AbsenceController>();
     return AppBar(
-      backgroundColor: Colors.grey,
       title: Text('Mes absences (${absenceCtrl.listeAbsences.length})',
-      style: TextStyle(color: Colors.black),
       ),
-
+      centerTitle: true,
     );
   }
   Widget _body(){
@@ -53,7 +52,9 @@ class _HistoriquePageState extends State<HistoriquePage> {
                   title: Text('${absence.date_absence}'),
                   subtitle: Text('${absence.motif}'),
                   trailing: IconButton(
-                      onPressed: (){},
+                      onPressed: (){
+
+                      },
                       icon: Icon(Icons.cancel)
                   ),
                 );

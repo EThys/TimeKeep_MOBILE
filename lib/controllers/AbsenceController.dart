@@ -18,7 +18,7 @@ class AbsenceController with ChangeNotifier {
   AbsenceController({this.stockage});
 
   void recuperAbsences() async {
-    var url = "${Endpoints.absence}";
+    var url = "${Endpoints.recupererAbsence}";
     loading = true;
     notifyListeners();
     var reponse = await getData(url);
@@ -28,6 +28,12 @@ class AbsenceController with ChangeNotifier {
     }
     loading = false;
     notifyListeners();
+  }
+  Future<HttpResponse> annulerAbsence(Map donneesAbsences) async{
+    var url = "${Endpoints.recupererAbsence}";
+    HttpResponse reponse = await postData(url, donneesAbsences);
+    if (reponse.status) absence = AbsenceModel.fromJson(reponse.data ?? {});
+    return reponse;
   }
 
   Future<HttpResponse> signalerAbsence(Map donneesAbsences) async {
