@@ -24,7 +24,9 @@ Widget ChampSaisie(
           hintText: "Saisir...",
           border: _bordure(Colors.blue),
           focusedBorder: _bordure(Colors.blue),
-          enabledBorder: _bordure(Colors.blue)));
+          enabledBorder: _bordure(Colors.blue)
+      )
+  );
 }
 
 OutlineInputBorder _bordure(MaterialColor _color) {
