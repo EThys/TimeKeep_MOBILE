@@ -64,13 +64,20 @@ var titre ="Signaler son absence";
                   ),
                   DateTimePicker(
                     type: DateTimePickerType.date,
-                    dateMask: 'd MMM, yyyy',
+                    dateMask: 'd MMM yyyy',
                     initialValue: DateTime.now().toString(),
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
                     icon: Icon(Icons.event),
                     dateLabelText: 'Date',
                     timeLabelText: "Hour",
+                    decoration: InputDecoration(
+                        hintText: "Saisir...",
+                        prefixIcon: Icon(Icons.event),
+                        border: _bordure(Colors.blue),
+                        focusedBorder: _bordure(Colors.blue),
+                        enabledBorder: _bordure(Colors.blue)
+                    ),
                     selectableDayPredicate: (date) {
                       // Disable weekend days to select from the calendar
                       if (date.weekday == 6 || date.weekday == 7) {
@@ -85,11 +92,6 @@ var titre ="Signaler son absence";
                     },
                     onSaved: (val) => print(val),
                   ),
-                  ChampSaisie(ctrl: dateAbsence,
-                      label: "Date",
-                      required: true,
-                      prefixIcon: Icons.date_range,
-                      isPassword: false),
                   SizedBox(
                     height: 20,
                   ),
@@ -120,6 +122,11 @@ var titre ="Signaler son absence";
       ),
     );
   }
+OutlineInputBorder _bordure(MaterialColor _color) {
+  return OutlineInputBorder(
+      borderSide: BorderSide(width: 2, color: _color),
+      borderRadius: BorderRadius.all(Radius.circular(10)));
+}
 Widget _bottomAppBar(){
   return BottomAppBar(
     shape: CircularNotchedRectangle(),
