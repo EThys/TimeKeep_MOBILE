@@ -3,16 +3,18 @@ import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:squelette_mobile_parcours/controllers/PresenceController.dart';
-import 'package:squelette_mobile_parcours/utils/showPresenceMsg.dart';
+import 'package:squelette_mobile_parcours/widget/showPresenceMsg.dart';
 
-class QrCodeScannerPage extends StatefulWidget {
-  const QrCodeScannerPage({Key? key}) : super(key: key);
+class QrPresenceScannerPage extends StatefulWidget {
+  final String type;
+
+   QrPresenceScannerPage({Key? key, required this.type}) : super(key: key);
 
   @override
-  State<QrCodeScannerPage> createState() => _QrCodeScannerPageState();
+  State<QrPresenceScannerPage> createState() => _QrPresenceScannerPageState();
 }
 
-class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
+class _QrPresenceScannerPageState extends State<QrPresenceScannerPage> {
 
   bool flashOn=false;
   bool frontCam= false;
@@ -45,20 +47,21 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
               controller.scannedDataStream.listen((scanData) async {
                 resultScan=scanData.code;
                 controller.dispose();
+                // if(widget.type=="Entree")//
 
                 var presenceCtrl=context.read<PresenceController>();
-                var result=await presenceCtrl.setPresenceApi(resultScan!, {'bssid':_connectionStatus,'user_id':'4'});
+                var result=await presenceCtrl.setPresenceApi(resultScan!, {'bssid':_connectionStatus,'user_id':'3'});
 
                 switch (result.data!['message']) {
-                  case "Présence enregistré":
+                  case "Presence enregistre":
                     showPresenceMsg(context, true, "Votre présence a été enregistré avec succés");
                     controller.dispose();
                     break;
-                  case "Présence deja enregistré":
+                  case "Presence deja enregistre":
                     showPresenceMsg(context, false, "Votre Présence est deja enregistré");
                     controller.dispose();
                     break;
-                  case "Réseau non autorisé":
+                  case "Reseau non autorise":
                     showPresenceMsg(context, false, "Réseau non autorisé");
                     controller.dispose();
                     break;
@@ -121,6 +124,8 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
     _connectionStatus =  '$wifiId';
   }
 }
+
+
 
 
 
