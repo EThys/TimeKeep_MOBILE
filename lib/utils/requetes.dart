@@ -52,3 +52,28 @@ Future<HttpResponse> postData(String api_url, Map data) async {
         isException: true);
   }
 }
+
+Future<HttpResponse> patchData(String api_url, Map data) async {
+  try {
+    var url = Uri.parse("${Constantes.BASE_URL}$api_url");
+    String dataStr = json.encode(data);
+    var response = await http.patch(url, body: dataStr, headers: {
+      "Content-Type": "application/json"
+    }).timeout(Duration(seconds: 5));
+    var successList = [200, 201];
+    var msg = json.decode(response.body);
+    var st = successList.contains(response.statusCode);
+
+    return HttpResponse(status: st, data: msg);
+
+  } catch (e, trace) {
+    print(e.toString());
+    print(trace.toString());
+
+    return HttpResponse(
+        status: false,
+        errorMsg: "Erreur inattendue",
+        isException: true);
+  }
+}
+
