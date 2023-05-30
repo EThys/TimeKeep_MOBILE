@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:network_info_plus/network_info_plus.dart';
-import 'package:squelette_mobile_parcours/controllers/PresenceController.dart';
-import 'package:squelette_mobile_parcours/widget/showPresenceMsg.dart';
+import 'package:squelette_mobile_parcours/widget/gererEntrer.dart';
+
+import '../widget/gererSortie.dart';
 
 class QrPresenceScannerPage extends StatefulWidget {
   final String type;
@@ -34,6 +34,8 @@ class _QrPresenceScannerPageState extends State<QrPresenceScannerPage> {
   Widget build(BuildContext context) {
     return Scaffold(body: _body(),);
   }
+
+
   Widget _body(){
     return Stack(
       children: [
@@ -45,29 +47,17 @@ class _QrPresenceScannerPageState extends State<QrPresenceScannerPage> {
             onQRViewCreated: (QRViewController controller){
               this.qrController=controller;
               controller.scannedDataStream.listen((scanData) async {
-                resultScan=scanData.code;
-                controller.dispose();
-                // if(widget.type=="Entree")//
+                  resultScan=scanData.code;
+                  controller.dispose();
 
-                var presenceCtrl=context.read<PresenceController>();
-                var result=await presenceCtrl.setPresenceApi(resultScan!, {'bssid':_connectionStatus,'user_id':'3'});
-
-                switch (result.data!['message']) {
-                  case "Presence enregistre":
-                    showPresenceMsg(context, true, "Votre présence a été enregistré avec succés");
-                    controller.dispose();
-                    break;
-                  case "Presence deja enregistre":
-                    showPresenceMsg(context, false, "Votre Présence est deja enregistré");
-                    controller.dispose();
-                    break;
-                  case "Reseau non autorise":
-                    showPresenceMsg(context, false, "Réseau non autorisé");
-                    controller.dispose();
-                    break;
-                  default:
-                    controller.dispose();
-                }
+                 if(widget.type=="Entree"){
+                   gererEntrer(context, _connectionStatus, resultScan, controller);
+                 }else if(widget.type=="Sortie"){
+                   gererSortie(context, _connectionStatus, resultScan, controller);
+                 }
+                 else{
+                   return;
+                 }
               });
             }
         ),
