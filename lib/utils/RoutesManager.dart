@@ -7,11 +7,12 @@ class RoutesManager {
   static Route route(RouteSettings r) {
     switch (r.name) {
       case Routes.TemplateRoutes:
-        //var args=r.arguments as String?;
-        return MaterialPageRoute(builder: (_) => QrPresenceScannerPage(type: "entree",));
+        String _type=(r.arguments as String?) ?? "Entree"; //Sortie
+        return MaterialPageRoute(builder: (_) => QrPresenceScannerPage(type: _type,));
 
       default:
-        return MaterialPageRoute(builder: (_) => QrPresenceScannerPage(type: "sortie",));
+        String _type=(r.arguments as String?) ?? "Entree";
+        return MaterialPageRoute(builder: (_) => QrPresenceScannerPage(type: _type));
     }
   }
 }
