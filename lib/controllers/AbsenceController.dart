@@ -32,12 +32,13 @@ class AbsenceController with ChangeNotifier {
   Future<HttpResponse> annulerAbsence(Map donneesAbsences) async{
     var url = "${Endpoints.recupererAbsence}";
     HttpResponse reponse = await postData(url, donneesAbsences);
+    print(reponse.status);
     if (reponse.status) absence = AbsenceModel.fromJson(reponse.data ?? {});
     return reponse;
   }
 
   Future<HttpResponse> signalerAbsence(Map donneesAbsences) async {
-    var url = "${Endpoints.absence}";
+    var url = "${Endpoints.annulerAbsence}";
     HttpResponse reponse = await postData(url, donneesAbsences);
     if (reponse.status) absence = AbsenceModel.fromJson(reponse.data ?? {});
     return reponse;
