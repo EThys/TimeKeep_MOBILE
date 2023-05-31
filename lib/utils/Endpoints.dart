@@ -1,3 +1,6 @@
 class Endpoints {
-  static const String authentication = "/api/auth";
+
+  static const String authentificationEndpoint = "/api/auth/login";
+  static const String profilEndpoint = "/api/auth/recuperer";
+
 }
