@@ -8,7 +8,7 @@ import 'package:squelette_mobile_parcours/widgets/ChampsSaisie.dart';
 import 'package:squelette_mobile_parcours/widgets/Chargement.dart';
 
 import '../controllers/AbsenceController.dart';
-import 'Historique.dart';
+import 'HistoriquePage.dart';
 
 
 class AbsencePage extends StatefulWidget {
@@ -200,7 +200,7 @@ class _AbsencePageState extends State<AbsencePage> {
     isVisible = false;
     setState(() {});
     if(statut == true){
-      Navigator.push(context, MaterialPageRoute(builder: (_)=>Historique()));
+      Navigator.push(context, MaterialPageRoute(builder: (_)=>HistoriquePage()));
     }else{
       msg = ctrl.absence?.message;
       motifCtrl.value = TextEditingValue(text: "");

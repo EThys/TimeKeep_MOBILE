@@ -3,7 +3,7 @@ import 'package:squelette_mobile_parcours/pages/AbsencePage.dart';
 import 'package:squelette_mobile_parcours/pages/HistoriquePage.dart';
 import 'package:squelette_mobile_parcours/pages/StartPage.dart';
 
-import '../pages/Historique.dart';
+import '../pages/HistoriquePage.dart';
 import '../pages/TemplatePage.dart';
 import 'Routes.dart';
 
@@ -17,7 +17,7 @@ class RoutesManager {
         // return MaterialPageRoute(builder: (_) => AbsenceFormPage());
         return MaterialPageRoute(builder: (_) => AbsencePage());
       case Routes.HistoriqueRoutes:
-        return MaterialPageRoute(builder: (_) => Historique());
+        return MaterialPageRoute(builder: (_) => HistoriquePage());
       default:
         return MaterialPageRoute(builder: (_) => StartedPage());
     }

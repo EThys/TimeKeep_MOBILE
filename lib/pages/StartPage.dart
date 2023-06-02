@@ -5,7 +5,7 @@ import 'package:squelette_mobile_parcours/pages/HistoriquePage.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'AbsencePage.dart';
-import 'Historique.dart';
+import 'HistoriquePage.dart';
 class StartedPage extends StatefulWidget {
   const StartedPage({Key? key}) : super(key: key);
 
@@ -71,7 +71,7 @@ class _StartedPageState extends State<StartedPage> {
               tooltip: 'Favorite',
               icon: const Icon(Icons.history),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_)=> Historique()));
+                Navigator.push(context, MaterialPageRoute(builder: (_)=> HistoriquePage()));
               },
             ),
           ],
