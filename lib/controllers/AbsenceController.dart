@@ -29,18 +29,16 @@ class AbsenceController with ChangeNotifier {
     loading = false;
     notifyListeners();
   }
-  Future<HttpResponse> annulerAbsence(Map donneesAbsences) async{
-    var url = "${Endpoints.recupererAbsence}";
-    HttpResponse reponse = await postData(url, donneesAbsences);
-    print(reponse.status);
-    if (reponse.status) absence = AbsenceModel.fromJson(reponse.data ?? {});
-    return reponse;
-  }
-
-  Future<HttpResponse> signalerAbsence(Map donneesAbsences) async {
-    var url = "${Endpoints.annulerAbsence}";
+  Future<HttpResponse> signalerAbsence(Map donneesAbsences, {bool cancel = false}) async {
+    var url="";
+    if(cancel){
+      url = "${Endpoints.annulerAbsence}";
+    }else{
+      url = "${Endpoints.absence}";
+    }
     HttpResponse reponse = await postData(url, donneesAbsences);
     if (reponse.status) absence = AbsenceModel.fromJson(reponse.data ?? {});
+    notifyListeners();
     return reponse;
   }
 }

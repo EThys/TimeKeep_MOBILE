@@ -36,7 +36,7 @@ class _TemplatePageState extends State<TemplatePage> {
           children: [
             ElevatedButton(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (_)=>AbsenceFormPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>AbsencePage()));
                 },
                 style: style,
                 child: Text('Signaler absence'

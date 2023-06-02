@@ -11,7 +11,7 @@ class AbsenceModel {
     this.date_absence,
     this.user_id,
     this.status,
-    this.data,
+    this.message,
   });
 
   int? id;
@@ -19,10 +19,10 @@ class AbsenceModel {
   String? date_absence;
   int? user_id;
   String? status;
-  var data;
+  var message;
 
   factory AbsenceModel.fromJson(Map json) => AbsenceModel(
-
+    message: json["message"],
     id: json["id"],
     motif: json["motif"],
     date_absence: json["date_absence"],
