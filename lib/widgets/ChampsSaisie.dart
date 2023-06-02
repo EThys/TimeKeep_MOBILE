@@ -14,17 +14,17 @@ Widget ChampSaisie(
       validator: (String? value) {
         if(!required) return null;
         if ( value == null || value.isEmpty) {
-          return "Champs obligatoire";
+          print("Champs obligatoire");
         }
         return null;
       },
       decoration: InputDecoration(
           prefixIcon: Icon(prefixIcon),
-          labelText: label,
-          hintText: "Saisir...",
-          border: _bordure(Colors.blue),
-          focusedBorder: _bordure(Colors.blue),
-          enabledBorder: _bordure(Colors.blue)
+          prefixIconColor: Colors.amber[900],
+          hintText: label,
+          border: _bordure(Colors.grey),
+          focusedBorder: _bordure(Colors.amber),
+          enabledBorder: _bordure(Colors.grey)
       )
   );
 }
@@ -32,5 +32,6 @@ Widget ChampSaisie(
 OutlineInputBorder _bordure(MaterialColor _color) {
   return OutlineInputBorder(
       borderSide: BorderSide(width: 2, color: _color),
-      borderRadius: BorderRadius.all(Radius.circular(16)));
+      borderRadius: BorderRadius.all(Radius.circular(5))
+  );
 }

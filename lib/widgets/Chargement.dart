@@ -10,7 +10,12 @@ Widget Chargement([bool isVisible=false] ){
             height: double.infinity,
             //color: Colors.grey.withOpacity(0.4),
             color: Colors.black12,
-            child: Center(child: CircularProgressIndicator()))
+            child: Center(
+              child: CircularProgressIndicator(
+                color: Colors.amber[900],
+              )
+            )
+        )
     ),
   ) ;
 }
