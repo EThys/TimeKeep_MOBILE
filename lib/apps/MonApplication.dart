@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/controllers/AbsenceController.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:squelette_mobile_parcours/controllers/PresenceController.dart';
 import '../utils/RoutesManager.dart';
