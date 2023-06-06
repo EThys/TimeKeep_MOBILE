@@ -19,10 +19,10 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
 
 
 
-
   bool isRememberMe=false;
   bool isVisible=false;
   String errorMsg="";
+  bool isPassword=false;
 
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -53,7 +53,7 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
       Message.afficherSnack(context, "Authentification reussie", Colors.green);
       await Future.delayed(Duration(seconds: 4));
       setState(() {});
-      Navigator.pushReplacementNamed(context, Routes.Home);
+      Navigator.pushReplacementNamed(context, Routes.BottomNavBar);
 
     } else {
       var msg =
@@ -82,7 +82,8 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
           _titre_widget(),
           _formulaire_widget(),
           _button_widget(),
-          _image_widget()
+          _image_widget(),
+          _copyWidget()
         ],
       ),
     );
@@ -156,6 +157,9 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
                     if ( value == null || value.isEmpty) {
                       return "votre adresse email*";
                     }
+                      if(!RegExp(r'\S+@\S+\.\S+').hasMatch(value)){
+                        return 'Entrez une addresse valide*';
+                    }
                     return null;
                   },
                   label: "Email",
@@ -172,6 +176,7 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
               Container(
                 margin: EdgeInsets.all(20),
                 child: ChampSaisie(
+
                     validator: (String? value) {
 
                       if ( value == null || value.isEmpty) {
@@ -207,7 +212,7 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
                   GestureDetector(
                     child: Text(
                       "Mot de passe oublié?",
-                      style: TextStyle(color: Utils.COLOR_BLUE, fontSize: 12,decoration: TextDecoration.underline),
+                      style: TextStyle(color: Utils.COLOR_NOIR, fontSize: 12,decoration: TextDecoration.underline,fontWeight: FontWeight.bold),
 
                     ),
                     onTap: () {
@@ -271,6 +276,31 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
 
 
   }
+  Widget _copyWidget(){
+    return    Expanded(
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 90),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Spacer(),
+            Row(
+              children: [
+                SizedBox(
+                    child:Icon(Icons.earbuds,color: Utils.COLOR_BLANCHE,)),
+                Expanded(
+                  child:Text('Copyright \u00a9 2023',style: TextStyle(color:Utils.COLOR_NOIR  ,fontSize: 15,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic)),
+                ) ],
+            ),
+            SizedBox(
+              height: 20,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
 }
 
 

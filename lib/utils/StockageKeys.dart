@@ -1,5 +1,6 @@
 
 class StockageKeys{
-  static const String clientKey="CLIENT";
-  static const String operateursKey="OPERATEURS";
+  static const String userKey="USER_KEY";
+  static const String tokenKey="TOKEN_KEY";
+
 }
