@@ -4,6 +4,8 @@ import 'package:squelette_mobile_parcours/utils/Endpoints.dart';
 import '../utils/Requete.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../utils/StockageKeys.dart';
+
 
 class AuthentificationCtrl with ChangeNotifier {
 
@@ -22,10 +24,8 @@ class AuthentificationCtrl with ChangeNotifier {
     var url="${Endpoints.authentificationEndpoint}";
     HttpResponse response = await postData(url, data);
     if(response.status){
-
-      user=AuthentificationModel.fromJson(response.data?['user'] ?? {});
       stockage?.write("user", response.data?["data"] ?? {});
-      stockage?.write("token", response.data?["token"]?? "");
+      stockage?.write(StockageKeys.tokenKey, response.data?["data"]["token"]?? "");
       notifyListeners();
     }
     print(response.data);
