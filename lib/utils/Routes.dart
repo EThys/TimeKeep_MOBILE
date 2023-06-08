@@ -9,4 +9,8 @@ class Routes {
   static const String Historique="/BottomNavBar";
   static const String Approbation="/Approbationr";
 
+  static const String AbsenceRoutes = "/absences";
+  static const String HistoriqueRoutes = "/absences";
+  static const String StartedRoutes = "/";
+  static const String QrCodeScannerRoute = "/scanner";
 }

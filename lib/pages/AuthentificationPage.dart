@@ -44,23 +44,19 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
     };
     print(datas);
     var res=await ctrl.login(datas);
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(Duration(seconds: 2));
     isVisible = false;
     setState(() {});
 
     if (res.status) {
-
-      Message.afficherSnack(context, "Authentification reussie", Colors.green);
       await Future.delayed(Duration(seconds: 4));
       setState(() {});
       Navigator.pushReplacementNamed(context, Routes.BottomNavBar);
 
     } else {
-      var msg =
-      res.isException == true ? res.errorMsg : (res.data?['message']);
-
+      passwordLogin.clear();
+      var msg = res.isException == true ? res.errorMsg : (res.data?['message']);
       Message.afficherSnack(context, msg);
-
     }return;
 }
 
@@ -181,7 +177,6 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
 
                       if ( value == null || value.isEmpty) {
                         return "votre mot de passe*";
-
                       }
                       return null;
                     },
@@ -239,7 +234,6 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
           padding: EdgeInsets.all(15),
           width: 186,
           height: 81,
-
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 backgroundColor: Utils.COLOR_NOIR,
@@ -277,8 +271,7 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
 
   }
   Widget _copyWidget(){
-    return    Expanded(
-      child: Container(
+    return    Container(
         margin: EdgeInsets.symmetric(horizontal: 90),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -297,7 +290,7 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
             )
           ],
         ),
-      ),
+
     );
   }
 
