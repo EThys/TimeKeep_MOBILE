@@ -33,11 +33,12 @@ class PresenceController with ChangeNotifier{
       stockage?.remove(StockageKeys.presenceKey);
       notifyListeners();
     }
-
     return reponse;
   }
 
 
 }
+
+
 
 

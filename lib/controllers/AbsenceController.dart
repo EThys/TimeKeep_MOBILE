@@ -1,12 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:squelette_mobile_parcours/models/AbsenceModel.dart';
 import 'package:squelette_mobile_parcours/utils/Endpoints.dart';
-import '../utils/Constantes.dart';
 import '../utils/requetes.dart';
 
 class AbsenceController with ChangeNotifier {
