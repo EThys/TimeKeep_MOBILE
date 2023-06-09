@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/models/AuthentificationModel.dart';
 import 'package:squelette_mobile_parcours/utils/Endpoints.dart';
-import '../utils/Requete.dart';
+import '../utils/requetes.dart';
 import 'package:get_storage/get_storage.dart';
 import '../utils/StockageKeys.dart';
 

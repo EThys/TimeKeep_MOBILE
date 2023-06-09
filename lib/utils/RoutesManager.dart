@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:squelette_mobile_parcours/pages/HistoriquePage.dart';
-import 'package:squelette_mobile_parcours/pages/ModifierPassword.dart';
 import '../pages/AuthentificationPage.dart';
 import '../pages/QrPresenceScannerPage.dart';
 import '../pages/TemplatePage.dart';
@@ -16,9 +15,7 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => AuthentificationPage());
       case Routes.HistoriqueRoutes:
         return MaterialPageRoute(builder: (_)=>HistoriquePage());
-      case Routes.PasswordReset:
-        return MaterialPageRoute(builder: (_)=>ModifierPassword());
-      default:
+        default:
         return MaterialPageRoute(builder: (_) => TemplatePage());
     }
   }
