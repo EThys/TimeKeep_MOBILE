@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:squelette_mobile_parcours/controllers/AuthentificationCtrl.dart';
-import 'package:squelette_mobile_parcours/controllers/ProfilCtrl.dart';
+import '../controllers/PresenceController.dart';
 import '../utils/RoutesManager.dart';
 import 'package:provider/provider.dart';
 import '../utils/Routes.dart';
 import '../utils/StockageKeys.dart';
-import 'package:squelette_mobile_parcours/utils/ColorPage.dart';
-import 'package:flutter/services.dart';
+
 
 class MonApplication extends StatelessWidget {
-  final box=GetStorage(); //partager les donnees de stockage
+  var _stockage = GetStorage();
   @override
   Widget build(BuildContext context) {
-    var user=box.read<Map>(StockageKeys.userKey);
-    var usertoken=box.read<Map>(StockageKeys.tokenKey);
+    var token=_stockage.read<Map>(StockageKeys.tokenKey);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=> AuthentificationCtrl(stockage:box)),
-        ChangeNotifierProvider(create: (_)=> ProfilCtrl(stockage:box)),//box pour partager les donnees dans mon application
+        ChangeNotifierProvider(create: (_)=> AuthentificationCtrl(stockage:_stockage)),
+        ChangeNotifierProvider(create: (_) => PresenceController(stockage: _stockage)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RoutesManager.route,
-        initialRoute: Routes.Splashscreen,
+        initialRoute: token!=null ? Routes. BottomNavBar : Routes.Authentification,
       ),
     );
   }
