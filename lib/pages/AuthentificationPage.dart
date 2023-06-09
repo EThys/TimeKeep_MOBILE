@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:squelette_mobile_parcours/pages/ModifierPassword.dart';
 import 'package:squelette_mobile_parcours/widget/ChampSaisie.dart';
 import 'package:squelette_mobile_parcours/widget/Chargement.dart';
 import 'package:squelette_mobile_parcours/utils/ColorPage.dart';
 import 'package:squelette_mobile_parcours/controllers/AuthentificationCtrl.dart';
 import '../utils/MessageSnack.dart';
 import '../utils/Routes.dart';
+
 
 class AuthentificationPage extends StatefulWidget {
   const AuthentificationPage({Key? key}) : super(key: key);
@@ -49,7 +51,7 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
     setState(() {});
 
     if (res.status) {
-      await Future.delayed(Duration(seconds: 4));
+      await Future.delayed(Duration(seconds: 3));
       setState(() {});
       Navigator.pushReplacementNamed(context, Routes.BottomNavBar);
 
@@ -207,7 +209,7 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
                   GestureDetector(
                     child: Text(
                       "Mot de passe oublié?",
-                      style: TextStyle(color: Utils.COLOR_NOIR, fontSize: 12,decoration: TextDecoration.underline,fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Utils.COLOR_NOIR, fontSize: 12,decoration: TextDecoration.underline,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic),
 
                     ),
                     onTap: () {
@@ -271,7 +273,7 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
 
   }
   Widget _copyWidget(){
-    return    Container(
+    return   Container(
         margin: EdgeInsets.symmetric(horizontal: 90),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -281,7 +283,7 @@ class _AuthentificationPageState extends State<AuthentificationPage> {
               children: [
                 SizedBox(
                     child:Icon(Icons.earbuds,color: Utils.COLOR_BLANCHE,)),
-                Expanded(
+                Flexible(
                   child:Text('Copyright \u00a9 2023',style: TextStyle(color:Utils.COLOR_NOIR  ,fontSize: 15,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic)),
                 ) ],
             ),
