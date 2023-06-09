@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:squelette_mobile_parcours/controllers/AuthentificationCtrl.dart';
+import 'package:squelette_mobile_parcours/controllers/AbsenceController.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:squelette_mobile_parcours/controllers/PresenceController.dart';
 import '../utils/RoutesManager.dart';
+import '../utils/Routes.dart';
 import '../utils/Routes.dart';
 import 'package:provider/provider.dart';
 import '../utils/StockageKeys.dart';
@@ -9,6 +13,8 @@ import '../utils/StockageKeys.dart';
 
 class MonApplication extends StatelessWidget {
   final box=GetStorage(); //partager les donnees de stockage
+  var _stockage = GetStorage();
+
   var _stockage = GetStorage();
 
   @override
@@ -28,4 +34,5 @@ class MonApplication extends StatelessWidget {
     );
   }
 }
+
 
