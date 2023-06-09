@@ -6,6 +6,7 @@ import 'package:squelette_mobile_parcours/utils/ColorPage.dart';
 import 'package:squelette_mobile_parcours/controllers/AuthentificationCtrl.dart';
 import '../utils/MessageSnack.dart';
 import '../utils/Routes.dart';
+import '../widgets/Chargement.dart';
 
 class AuthentificationPage extends StatefulWidget {
   const AuthentificationPage({Key? key}) : super(key: key);
