@@ -1,11 +1,16 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:provider/provider.dart';
-import 'package:squelette_mobile_parcours/utils/Constantes.dart';
-import 'package:squelette_mobile_parcours/controllers/ProfileCtrl.dart';
+import 'package:squelette_mobile_parcours/utils/ColorPage.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:squelette_mobile_parcours/controllers/AuthentificationCtrl.dart';
+import 'package:squelette_mobile_parcours/utils/Routes.dart';
+import 'package:squelette_mobile_parcours/utils/StockageKeys.dart';
+import 'package:squelette_mobile_parcours/models/AuthentificationModel.dart';
+import 'package:squelette_mobile_parcours/widget/Chargement.dart';
+
 
 
 class ProfilePage extends StatefulWidget {
@@ -16,42 +21,64 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  @override
+  AuthentificationModel user = AuthentificationModel();
+  GetStorage stockage = GetStorage();
   Color other = Colors.black;
   Color selectedItem = Colors.orange;
   final ImagePicker picker = ImagePicker();
   XFile? imageSelectione;
 
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      var userCtrl = context.read<ProfileCtrl>();
-      userCtrl.recuperProfil();
-    });
-  }
+
+  bool isVisible = false;
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: _body(),
+      appBar: AppBar(
+        backgroundColor: Utils.COLOR_TRANSPARENT,
+        elevation: 0,
+        actions: [
+          Container(
+            margin: EdgeInsets.all(7),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: Utils.COLOR_NOIR,
+            ),
+            child: IconButton(onPressed: (){
+              Navigator.pop(context);
+            },
+                icon: const Icon(
+                  Icons.close,
+                  color: Utils.COLOR_ORANGE,
+                )),
+          )
+        ],
+      ),
+      body:  Stack(
+        children: [_body(context), Chargement(isVisible)],
+      ),
 
     );
   }
 
-  Widget _body() {
-    var userCtrl = context.watch<ProfileCtrl>();
+  Widget _body(BuildContext context) {
+    var profileCtrl = context.watch<AuthentificationCtrl>();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        SizedBox(height: 0,),
         Container(
           child: InkWell(
-            onTap: () async {
-
-
-            },
+            onTap: () async {},
             child: imageSelectione == null
                 ? CircleAvatar(
               radius: 80.0,
-              backgroundImage: AssetImage('images/image1.jpg'),
+
+              backgroundImage: AssetImage('images/image2.png',),
             )
                 : CircleAvatar(
               radius: 80.0,
@@ -59,16 +86,33 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ),
+        SizedBox(height: 20,),
         Container(
+          child: Text('${profileCtrl.user.email}',
+            style: TextStyle(
+                height: 1.5,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1,
+                color: Utils.COLOR_NOIR,
+              fontFamily: 'Schyler'
+            ),
+          ),
+        ),
+        SizedBox(height: 20,),
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Utils.COLOR_NOIR
+          ),
           child: TextButton(
             child: Text(
-              'Changer la photo',
-              style: TextStyle(color: Colors.grey),
+              'Changer ma photo',
+              style: TextStyle(color: Utils.COLOR_BLANCHE,fontWeight: FontWeight.bold,fontFamily: "Schyler"),
             ),
             onPressed: () async {
               imageSelectione =
               await picker.pickImage(source: ImageSource.gallery);
-
               if (imageSelectione != null) {
                 Directory directory = await getApplicationDocumentsDirectory();
                 print(directory.path);
@@ -82,17 +126,6 @@ class _ProfilePageState extends State<ProfilePage> {
             },
           ),
         ),
-        Container(
-          child: Text("profil name",
-            //  '${userCtrl.user?.name == null ? 'Profil Name' : userCtrl.user?.name}',
-            style: TextStyle(
-                height: 1.5,
-                fontSize: 25,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 1,
-                color: Colors.black87),
-          ),
-        ),
         SizedBox(height: 15),
         Expanded(
           child:
@@ -100,164 +133,177 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: EdgeInsets.all(10),
               shrinkWrap: true,
               children: [
-                ListTile(
-                  title: Text('Mes publications',
-                      style: TextStyle(
-                        fontSize: 14,
-                      )),
-                  leading: Icon(
-                    Icons.public,
-                    color: Colors.black,
-                    size: 35,
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text(
-                    'Mes favoris',
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                  leading: Icon(
-                    Icons.favorite,
-                    color: Colors.black,
-                    size: 35,
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text(
-                    'Notification',
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                  leading: Icon(
-                    Icons.notifications_active,
-                    color: Colors.black,
-                    size: 35,
-                  ),
-                  trailing: badges.Badge(
-                    badgeContent: Text("6", style: TextStyle(color: Colors.white),),
-                  ),
-                  /*Icon(
-                Icons.notifications_paused_rounded,
-                color: Colors.black,
-                size: 20,
-              ),*/
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text("non defini",
-                    // '${userCtrl.user?.email == null ? "non defini" : userCtrl.user?.email}',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  leading: Icon(
-                    Icons.email,
-                    color: Colors.black,
-                    size: 35,
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text("non defini",
-                    //   "${userCtrl.user?.telephone==null? 'non defini':userCtrl.user?.telephone}",
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                  leading: Icon(
-                    Icons.phone,
-                    color: Colors.black,
-                    size: 35,
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text(
-                    'Aide',
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                  leading: Icon(
-                    Icons.help,
-                    color: Colors.black,
-                    size: 35,
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text(
-                    'Déconnexion',
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                  leading: Icon(
-                    Icons.login,
-                    color: Colors.black,
-                    size: 35,
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  onTap: () {},
-                ),
-                SizedBox(
-                  height: 120,
-                ),
                 Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  width: 343,
-                  height: 52,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      //other=Colors.orange;
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 70),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Icon(Icons.update),
-                          ),
-                          Text(
-                            'Mettre à jour le profile',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ],
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    //color: Utils.COLOR_BLEU_CIEL,
+                  ),
+                  child:  ListTile(
+                    title: Text(
+                      'Termes et Condition',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Schyler"
                       ),
                     ),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: other,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12))),
+                    leading: Icon(
+                      Icons.bookmark,
+                      color: Utils.COLOR_ORANGE,
+                      size: 35,
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    onTap: () {},
                   ),
                 ),
+                Divider(height: 15,color: Utils.COLOR_GREY,),
+                //SizedBox(height: 20,),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    //color: Utils.COLOR_BLEU_CIEL,
+                  ),
+                  child:  ListTile(
+                    title: Text(
+                      'A propos',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Schyler"
+                      ),
+                    ),
+                    leading: Icon(
+                      Icons.info,
+                      color: Utils.COLOR_ORANGE,
+                      size: 35,
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+                Divider(height: 15,color: Utils.COLOR_GREY,),
+                //SizedBox(height: 20,),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    //color: Utils.COLOR_BLEU_CIEL,
+                  ),
+                  child:  ListTile(
+                    title: Text(
+                      'Configuration',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Schyler"
+                      ),
+                    ),
+                    leading: Icon(
+                      Icons.settings,
+                      color: Utils.COLOR_ORANGE,
+                      size: 35,
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+                //SizedBox(height: 20,),
+                Divider(height: 15,color: Utils.COLOR_GREY,),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    //color: Utils.COLOR_BLEU_CIEL,
+                  ),
+                  child:  ListTile(
+                    title: Text(
+                      'Déconnexion',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: "Schyler",
+                      ),
+                    ),
+                    leading: Icon(
+                      Icons.login,
+                      color: Utils.COLOR_ORANGE,
+                      size: 35,
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    onTap: () =>ouvrirDialog2(context),
+
+                  ),
+                ),
+                SizedBox(height: 20,),
+
               ]),
         ),
 
       ],
     );
   }
+
+
+  ouvrirDialog2(BuildContext context) async {
+
+    bool? resulat = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Deconnexion?",style: TextStyle(fontFamily: 'Schyler',color: Utils.COLOR_ORANGE),),
+          content: new Text("Souhaitez-vous vraiment vous déconnecter de TimeKeep?",style: TextStyle(fontFamily: 'Schyler'),),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                "Annuler",
+                style: TextStyle(color: Utils.COLOR_ROUGE,fontFamily: 'Schyler'),
+              ),
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+            ),
+            TextButton(
+              child: new Text("Se déconnecter",style: TextStyle(color:Utils.COLOR_ORANGE,fontFamily: 'Schyler'),),
+              onPressed: () async {
+                var auth = context.read<AuthentificationCtrl>();
+                auth.logout({});
+                isVisible = true;
+                setState(() {});
+                stockage.remove(StockageKeys.tokenKey);
+                Navigator.popAndPushNamed(context, Routes.Authentification);
+                await Future.delayed(Duration(seconds: 7));
+                isVisible = false;
+
+
+
+              },
+            ),
+          ],
+        );
+      },
+    );
+// code executé apres fermeture de la boite de dialogue
+
+  }
+
+  showSnackBar(context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(SnackBar(
+      content: Text(message),
+      action:
+      SnackBarAction(label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
+    ));
+  }
 }
+
+
