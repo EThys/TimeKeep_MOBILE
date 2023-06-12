@@ -13,6 +13,7 @@ class Utils{
   static const COLOR_GREEN=Colors.green;
   static Color? DEFAULT_SCAFFOLD_BG = Colors.grey[50];
   static const COLOR_BLEU_CIEL=Color(0XFFF3F7FB);
+  static const COLOR_TRANSPARENT=Colors.transparent;
 
 
 
