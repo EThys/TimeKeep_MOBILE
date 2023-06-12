@@ -1,7 +1,7 @@
 class Endpoints {
 
   static const String authentificationEndpoint = "/api/auth/login";
-  static const String profilEndpoint = "/api/user";
+  static const String profilEndpoint = "/api/profile";
 
   static const String absence = "/api/absences/";
   static const String annulerAbsence = "/api/absences/cancel";
