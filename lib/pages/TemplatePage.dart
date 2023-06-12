@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:squelette_mobile_parcours/pages/AbsencePage.dart';
+import 'package:squelette_mobile_parcours/pages/HistoriquePage.dart';
 import 'package:path/path.dart';
 import 'package:squelette_mobile_parcours/pages/AbsencePage.dart';
 import 'package:squelette_mobile_parcours/pages/HistoriquePage.dart';
