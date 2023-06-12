@@ -1,6 +1,7 @@
 import 'dart:convert';
-
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:squelette_mobile_parcours/apps/MonApplication.dart';
 import 'package:squelette_mobile_parcours/utils/Constantes.dart';
 
 class HttpResponse {
@@ -42,15 +43,16 @@ Future<HttpResponse> postData(String api_url, Map data, {String? token}) async {
       "Content-Type": "application/json",
       "Authorization": "Bearer $tkn"
     }).timeout(Duration(seconds: 5));
+   /* if(!kReleaseMode){
+      alice.onHttpResponse(response);
+    }*/
     var successList = [200, 201];
     var msg = json.decode(response.body);
     var st = successList.contains(response.statusCode);
-
     return HttpResponse(status: st, data: msg);
   } catch (e, trace) {
     print(e.toString());
     print(trace.toString());
-
     return HttpResponse(
         status: false, errorMsg: "Erreur inattendue", isException: true);
   }
